@@ -11,7 +11,7 @@ class App extends Component {
     render() {
         return (
             <div>
-                <nav className="navbar navbar-expand navbar-dark bg-dark">
+                <nav className="navbar navbar-expand navbar-dark bg-primary">
                     <Link to={"/tasks"} className="navbar-brand">
                         HoneyDo
                     </Link>
