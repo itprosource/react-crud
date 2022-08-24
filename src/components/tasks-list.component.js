@@ -160,7 +160,13 @@ export default class TasksList extends Component {
                                 <label>
                                     <strong>Status:</strong>
                                 </label>{" "}
-                                {currentTask.published ? "Published" : "Pending"}
+                                {currentTask.completed ? "Completed" : "Pending"}
+                            </div>
+                            <div>
+                                <label>
+                                    <strong>Due Date:</strong>
+                                </label>{" "}
+                                {currentTask.dueDate}
                             </div>
 
                             <Link

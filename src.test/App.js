@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 import "./App.css";
 
 import AddTask from "./components/add-task.component";
@@ -14,12 +13,7 @@ class App extends Component {
             <div>
                 <nav className="navbar navbar-expand navbar-dark bg-primary">
                     <Link to={"/tasks"} className="navbar-brand">
-                       <span style={{
-                           "font-family":'Pacifico'
-                       }}
-                       >
-                           HoneyDo
-                       </span>
+                        HoneyDo
                     </Link>
                     <div className="navbar-nav mr-auto">
                         <li className="nav-item">

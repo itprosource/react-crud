@@ -1,11 +1,16 @@
 import React, { Component } from "react";
 import TaskDataService from "../services/task.service";
+import DatePicker from 'react-datepicker';
+
+import "react-datepicker/dist/react-datepicker.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class AddTask extends Component {
     constructor(props) {
         super(props);
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
+        this.onChangeDate = this.onChangeDate.bind(this);
         this.saveTask = this.saveTask.bind(this);
         this.newTask = this.newTask.bind(this);
 
@@ -13,7 +18,8 @@ export default class AddTask extends Component {
             id: null,
             title: "",
             description: "",
-            published: false,
+            completed: false,
+            startDate: new Date(),
 
             submitted: false
         };
@@ -31,6 +37,12 @@ export default class AddTask extends Component {
         });
     }
 
+    onChangeDate(e) {
+        this.setState({
+            startDate: e.target.value
+        })
+    }
+
     saveTask() {
         var data = {
             title: this.state.title,
@@ -43,7 +55,8 @@ export default class AddTask extends Component {
                     id: response.data.id,
                     title: response.data.title,
                     description: response.data.description,
-                    published: response.data.published,
+                    completed: response.data.completed,
+                    startDate: response.data.date,
 
                     submitted: true
                 });
@@ -59,7 +72,8 @@ export default class AddTask extends Component {
             id: null,
             title: "",
             description: "",
-            published: false,
+            completed: false,
+            startDate: "",
 
             submitted: false
         });
@@ -70,7 +84,7 @@ export default class AddTask extends Component {
             <div className="submit-form">
                 {this.state.submitted ? (
                     <div>
-                        <h4>You submitted successfully!</h4>
+                        <h4>Task submitted successfully!</h4>
                         <button className="btn btn-success" onClick={this.newTask}>
                             Add
                         </button>
@@ -100,6 +114,16 @@ export default class AddTask extends Component {
                                 value={this.state.description}
                                 onChange={this.onChangeDescription}
                                 name="description"
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="startDate">Due Date</label>
+                            <DatePicker
+                                selected={ this.state.startDate }
+                                onChange={ this.onChangeDate }
+                                name="startDate"
+                                dateFormat="MM/dd/yyyy"
                             />
                         </div>
 

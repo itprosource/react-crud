@@ -6,8 +6,9 @@ export default class Task extends Component {
         super(props);
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
+        this.onChangeDueDate = this.OnChangeDueDate.bind(this);
         this.getTask = this.getTask.bind(this);
-        this.updatePublished = this.updatePublished.bind(this);
+        this.updateCompleted = this.updateCompleted.bind(this);
         this.updateTask = this.updateTask.bind(this);
         this.deleteTask = this.deleteTask.bind(this);
 
@@ -16,7 +17,8 @@ export default class Task extends Component {
                 id: null,
                 title: "",
                 description: "",
-                published: false
+                completed: false,
+                dueDate: "",
             },
             message: ""
         };
@@ -50,6 +52,17 @@ export default class Task extends Component {
         }));
     }
 
+    onChangeDueDate(e) {
+        const dueDate = e.target.value;
+
+        this.setState(prevState => ({
+            currentTask: {
+                ...prevState.currentTask,
+                dueDate: dueDate
+            }
+        }));
+    }
+
     getTask(id) {
         TaskDataService.get(id)
             .then(response => {
@@ -63,12 +76,13 @@ export default class Task extends Component {
             });
     }
 
-    updatePublished(status) {
+    updateCompleted(status) {
         var data = {
             id: this.state.currentTask.id,
             title: this.state.currentTask.title,
             description: this.state.currentTask.description,
-            published: status
+            completed: status,
+            dueDate: this.state.currentTask.dueDate
         };
 
         TaskDataService.update(this.state.currentTask.id, data)
@@ -76,7 +90,7 @@ export default class Task extends Component {
                 this.setState(prevState => ({
                     currentTask: {
                         ...prevState.currentTask,
-                        published: status
+                        completed: status
                     }
                 }));
                 console.log(response.data);
@@ -147,23 +161,34 @@ export default class Task extends Component {
                                 <label>
                                     <strong>Status:</strong>
                                 </label>
-                                {currentTask.published ? "Published" : "Pending"}
+                                {currentTask.completed ? "Completed" : "Pending"}
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="dueDate">Due Date</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="dueDate"
+                                    value={currentTask.dueDate}
+                                    onChange={this.onChangeDueDate}
+                                />
                             </div>
                         </form>
 
-                        {currentTask.published ? (
+                        {currentTask.completed ? (
                             <button
                                 className="badge badge-primary mr-2"
-                                onClick={() => this.updatePublished(false)}
+                                onClick={() => this.updateCompleted(false)}
                             >
-                                UnPublish
+                                Mark Pending
                             </button>
                         ) : (
                             <button
                                 className="badge badge-primary mr-2"
-                                onClick={() => this.updatePublished(true)}
+                                onClick={() => this.updateCompleted(true)}
                             >
-                                Publish
+                                Mark Complete
                             </button>
                         )}
 
