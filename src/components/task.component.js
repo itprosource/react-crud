@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import TaskDataService from "../services/task.service";
+import DatePicker from 'react-datepicker';
 
 export default class Task extends Component {
     constructor(props) {
         super(props);
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
-        this.onChangeDueDate = this.OnChangeDueDate.bind(this);
+        this.onChangeDate = this.onChangeDate.bind(this);
         this.getTask = this.getTask.bind(this);
         this.updateCompleted = this.updateCompleted.bind(this);
         this.updateTask = this.updateTask.bind(this);
@@ -18,7 +19,7 @@ export default class Task extends Component {
                 title: "",
                 description: "",
                 completed: false,
-                dueDate: "",
+                startDate: new Date(),
             },
             message: ""
         };
@@ -52,13 +53,13 @@ export default class Task extends Component {
         }));
     }
 
-    onChangeDueDate(e) {
-        const dueDate = e.target.value;
+    onChangeDate(e) {
+        const startDate = e;
 
         this.setState(prevState => ({
             currentTask: {
                 ...prevState.currentTask,
-                dueDate: dueDate
+                startDate: startDate.toISOString()
             }
         }));
     }
@@ -82,7 +83,7 @@ export default class Task extends Component {
             title: this.state.currentTask.title,
             description: this.state.currentTask.description,
             completed: status,
-            dueDate: this.state.currentTask.dueDate
+            startDate: this.state.currentTask.startDate
         };
 
         TaskDataService.update(this.state.currentTask.id, data)
@@ -165,13 +166,12 @@ export default class Task extends Component {
                             </div>
 
                             <div className="form-group">
-                                <label htmlFor="dueDate">Due Date</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="dueDate"
-                                    value={currentTask.dueDate}
-                                    onChange={this.onChangeDueDate}
+                                <label htmlFor="startDate">Start Date</label>
+                                <DatePicker
+                                    onChange={ this.onChangeDate }
+                                    name="startDate"
+                                    dateFormat="yyyy-MM-dd"
+                                    value={currentTask.startDate.toString().split("T")[0]}
                                 />
                             </div>
                         </form>
