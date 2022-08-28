@@ -131,7 +131,13 @@ export default class TasksList extends Component {
                                                 onClick={() => this.setActiveTask(Task, index)}
                                                 key={index}
                                             >
-                                                {Task.title}
+                                                <div className="align-left">
+                                                    {Task.title}
+                                                </div>
+
+                                                <div className="align-right">
+                                                    {Task.startDate.toString().split("T")[0]}
+                                                </div>
                                             </li>
                                         ))}
                                 </ul>
