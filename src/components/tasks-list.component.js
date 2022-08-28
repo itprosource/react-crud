@@ -119,21 +119,23 @@ export default class TasksList extends Component {
                         <div className="col-md-6">
                             <h4>Tasks List</h4>
 
-                            <ul className="list-group">
-                                {Tasks &&
-                                    Tasks.map((Task, index) => (
-                                        <li
-                                            className={
-                                                "list-group-item " +
-                                                (index === currentIndex ? "active" : "")
-                                            }
-                                            onClick={() => this.setActiveTask(Task, index)}
-                                            key={index}
-                                        >
-                                            {Task.title}
-                                        </li>
-                                    ))}
-                            </ul>
+                            <FadeIn>
+                                <ul className="list-group">
+                                    {Tasks &&
+                                        Tasks.map((Task, index) => (
+                                            <li
+                                                className={
+                                                    "list-group-item " +
+                                                    (index === currentIndex ? "active" : "")
+                                                }
+                                                onClick={() => this.setActiveTask(Task, index)}
+                                                key={index}
+                                            >
+                                                {Task.title}
+                                            </li>
+                                        ))}
+                                </ul>
+                            </FadeIn>
 
                             <button
                                 className="m-3 btn btn-sm btn-danger"
@@ -144,40 +146,42 @@ export default class TasksList extends Component {
                         </div>
                         <div className="col-md-6">
                             {currentTask ? (
-                                <div>
-                                    <h4>Task</h4>
+                                <FadeIn>
                                     <div>
-                                        <label>
-                                            <strong>Title:</strong>
-                                        </label>{" "}
-                                        {currentTask.title}
-                                    </div>
-                                    <div>
-                                        <label>
-                                            <strong>Description:</strong>
-                                        </label>{" "}
-                                        {currentTask.description}
-                                    </div>
-                                    <div>
-                                        <label>
-                                            <strong>Status:</strong>
-                                        </label>{" "}
-                                        {currentTask.completed ? "Completed" : "Pending"}
-                                    </div>
-                                    <div>
-                                        <label>
-                                            <strong>Due Date:</strong>
-                                        </label>{" "}
-                                        {currentTask.startDate.split("T")[0]}
-                                    </div>
+                                        <h4>Task</h4>
+                                        <div>
+                                            <label>
+                                                <strong>Title:</strong>
+                                            </label>{" "}
+                                            {currentTask.title}
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <strong>Description:</strong>
+                                            </label>{" "}
+                                            {currentTask.description}
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <strong>Status:</strong>
+                                            </label>{" "}
+                                            {currentTask.completed ? "Completed" : "Pending"}
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <strong>Due Date:</strong>
+                                            </label>{" "}
+                                            {currentTask.startDate.split("T")[0]}
+                                        </div>
 
-                                    <Link
-                                        to={"/Tasks/" + currentTask.id}
-                                        className="badge badge-warning"
-                                    >
-                                        Edit
-                                    </Link>
-                                </div>
+                                        <Link
+                                            to={"/Tasks/" + currentTask.id}
+                                            className="badge badge-warning"
+                                        >
+                                            Edit
+                                        </Link>
+                                    </div>
+                                </FadeIn>
                             ) : (
                                 <div>
                                     <br />

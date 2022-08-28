@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TaskDataService from "../services/task.service";
 import DatePicker from 'react-datepicker';
+import FadeIn from 'react-fade-in';
 
 export default class Task extends Component {
     constructor(props) {
@@ -132,89 +133,91 @@ export default class Task extends Component {
         const { currentTask } = this.state;
 
         return (
-            <div>
-                {currentTask ? (
-                    <div className="edit-form">
-                        <h4>Task</h4>
-                        <form>
-                            <div className="form-group">
-                                <label htmlFor="title">Title</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="title"
-                                    value={currentTask.title}
-                                    onChange={this.onChangeTitle}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="description">Description</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="description"
-                                    value={currentTask.description}
-                                    onChange={this.onChangeDescription}
-                                />
-                            </div>
+            <FadeIn>
+                <div>
+                    {currentTask ? (
+                        <div className="edit-form">
+                            <h4>Task</h4>
+                            <form>
+                                <div className="form-group">
+                                    <label htmlFor="title">Title</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="title"
+                                        value={currentTask.title}
+                                        onChange={this.onChangeTitle}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="description">Description</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="description"
+                                        value={currentTask.description}
+                                        onChange={this.onChangeDescription}
+                                    />
+                                </div>
 
-                            <div className="form-group">
-                                <label>
-                                    <strong>Status:</strong>
-                                </label>
-                                {currentTask.completed ? "Completed" : "Pending"}
-                            </div>
+                                <div className="form-group">
+                                    <label>
+                                        <strong>Status:</strong>
+                                    </label>
+                                    {currentTask.completed ? "Completed" : "Pending"}
+                                </div>
 
-                            <div className="form-group">
-                                <label htmlFor="startDate">Start Date</label>
-                                <DatePicker
-                                    onChange={ this.onChangeDate }
-                                    name="startDate"
-                                    dateFormat="yyyy-MM-dd"
-                                    value={currentTask.startDate.toString().split("T")[0]}
-                                />
-                            </div>
-                        </form>
+                                <div className="form-group">
+                                    <label htmlFor="startDate">Start Date</label>
+                                    <DatePicker
+                                        onChange={ this.onChangeDate }
+                                        name="startDate"
+                                        dateFormat="yyyy-MM-dd"
+                                        value={currentTask.startDate.toString().split("T")[0]}
+                                    />
+                                </div>
+                            </form>
 
-                        {currentTask.completed ? (
+                            {currentTask.completed ? (
+                                <button
+                                    className="badge badge-primary mr-2"
+                                    onClick={() => this.updateCompleted(false)}
+                                >
+                                    Mark Pending
+                                </button>
+                            ) : (
+                                <button
+                                    className="badge badge-primary mr-2"
+                                    onClick={() => this.updateCompleted(true)}
+                                >
+                                    Mark Complete
+                                </button>
+                            )}
+
                             <button
-                                className="badge badge-primary mr-2"
-                                onClick={() => this.updateCompleted(false)}
+                                className="badge badge-danger mr-2"
+                                onClick={this.deleteTask}
                             >
-                                Mark Pending
+                                Delete
                             </button>
-                        ) : (
+
                             <button
-                                className="badge badge-primary mr-2"
-                                onClick={() => this.updateCompleted(true)}
+                                type="submit"
+                                className="badge badge-success"
+                                onClick={this.updateTask}
                             >
-                                Mark Complete
+                                Update
                             </button>
-                        )}
-
-                        <button
-                            className="badge badge-danger mr-2"
-                            onClick={this.deleteTask}
-                        >
-                            Delete
-                        </button>
-
-                        <button
-                            type="submit"
-                            className="badge badge-success"
-                            onClick={this.updateTask}
-                        >
-                            Update
-                        </button>
-                        <p>{this.state.message}</p>
-                    </div>
-                ) : (
-                    <div>
-                        <br />
-                        <p>Please click on a Task...</p>
-                    </div>
-                )}
-            </div>
+                            <p>{this.state.message}</p>
+                        </div>
+                    ) : (
+                        <div>
+                            <br />
+                            <p>Please click on a Task...</p>
+                        </div>
+                    )}
+                </div>
+            </FadeIn>
         );
     }
 }
